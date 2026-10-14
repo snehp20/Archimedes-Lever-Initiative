@@ -126,7 +126,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   .card::before{width:150px;height:150px;right:-50px;top:-50px}
   .arrow{display:none}
   .asks li{font-size:12px;padding:6px 9px}
+  .board-pin{padding-top:68px;padding-bottom:12px}
+  .board-head{gap:10px}.board-head h2{display:none}.board-head .eyebrow{margin:0}
+  .stages{margin-top:10px}
+  .viewport{margin-top:10px}
+  .card{padding:18px 18px 20px}
+  .who{margin-top:14px}
+  .name{font-size:26px;margin-bottom:6px}
+  .role{font-size:10.5px;margin-bottom:10px}
+  .bio{font-size:14px;line-height:1.5;margin-bottom:12px}
+  .asks-label{margin-bottom:6px}
+  .card.is-on{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .board-foot{margin-top:8px;gap:4px 14px;font-size:9.5px}
 }
+@media (max-width:640px) and (max-height:760px){.asks,.asks-label{display:none}.bio{margin-bottom:0}}
 @media (max-height:720px){.board-head h2{display:none}.board-head .eyebrow{display:none}.bio{margin-bottom:12px}}
 @media (prefers-reduced-motion:reduce){.track,.card,.tab-ind{transition:none}}
 </style>
@@ -221,7 +234,7 @@ const F=[
   {n:'Navroop Aulakh',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'An IB student exploring entrepreneurship, and proof that you do not have to wait for university to start building. Students see what taking a first step looks like at an age not far from their own.',a:['Starting projects in high school','Turning interests into ideas','Taking the first step']}]},
  {name:'Economics',acc:'var(--gold)',people:[
   {n:'Finance team member',tbd:1,m:'sabre',r:'Finance team, Sabre Limited',b:'Works on the finance team at Sabre Limited, a company that helps manufacturers run their operations on Microsoft Dynamics 365 Business Central. Finance is where economics turns into decisions: budgets, forecasts, and what a company can afford to build next.',a:['What a finance team does','Economics inside a real company','Careers that work with numbers']},
-  {n:'To be announced',tbd:1,m:null,r:'University student, economics',b:'Confirmation in progress. We are in conversation with students at more than 25 universities for this seat, and will add them here as soon as they confirm.',a:['Lineup being finalized']},
+  {n:'Neel Mehra',m:'Duke University',r:'Economics student, Finance concentration, Duke University',b:'A Duke senior in economics and finance who has done global macro research in Hong Kong, interned in venture capital, and spent this summer at KKR in New York, where he returns full-time after graduation. He found his way into finance through trial and error at a public high school in Virginia, and wants students to see the path earlier than he did.',a:['Getting into finance without connections','What economics looks like in the real world','Making the most of university']},
   {n:'Sai Pha',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'An IB student drawn to economics, here to show what learning how money, markets and choices work looks like in high school, and why it matters long before anyone picks a major.',a:['Economics in high school','Why markets matter to everyone','Exploring before choosing']}]}
 ];
 const esc=s=>s;
