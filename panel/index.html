@@ -185,7 +185,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     <div class="board-pin">
       <div class="board-head">
         <p class="eyebrow">Confirmed panelists</p>
-        <h2>Four fields. Three voices each.</h2>
+        <h2>Five fields. Three voices each.</h2>
         <div class="tabs" role="tablist" aria-label="Career fields" id="tabs"><span class="tab-ind" id="tabInd" aria-hidden="true"></span></div>
       </div>
       <div class="stages" id="stages" aria-label="Panelist stage"></div>
@@ -235,7 +235,11 @@ const F=[
  {name:'Economics',acc:'var(--gold)',people:[
   {n:'Finance team member',tbd:1,m:'sabre',r:'Finance team, Sabre Limited',b:'Works on the finance team at Sabre Limited, a company that helps manufacturers run their operations on Microsoft Dynamics 365 Business Central. Finance is where economics turns into decisions: budgets, forecasts, and what a company can afford to build next.',a:['What a finance team does','Economics inside a real company','Careers that work with numbers']},
   {n:'Neel Mehra',m:'Duke University',r:'Economics student, Finance concentration, Duke University',b:'A Duke senior in economics and finance who has done global macro research in Hong Kong, interned in venture capital, and spent this summer at KKR in New York, where he returns full-time after graduation. He found his way into finance through trial and error at a public high school in Virginia, and wants students to see the path earlier than he did.',a:['Getting into finance without connections','What economics looks like in the real world','Making the most of university']},
-  {n:'Sai Pha',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'An IB student drawn to economics, here to show what learning how money, markets and choices work looks like in high school, and why it matters long before anyone picks a major.',a:['Economics in high school','Why markets matter to everyone','Exploring before choosing']}]}
+  {n:'Sai Pha',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'An IB student drawn to economics, here to show what learning how money, markets and choices work looks like in high school, and why it matters long before anyone picks a major.',a:['Economics in high school','Why markets matter to everyone','Exploring before choosing']}]},
+ {name:'Creative arts',acc:'var(--teal)',people:[
+  {n:'In discussions',tbd:1,m:null,r:'Workplace expert, creative arts',b:'Confirmation in progress. We are in conversations with working artists and creative professionals for this seat, and will add them here as soon as they confirm.',a:['Lineup being finalized']},
+  {n:'Zailah Nelson',m:'NYU Tisch',r:'BFA Dance student, NYU Tisch School of the Arts',b:'A dance major in the BFA program at New York University\u2019s Tisch Department of Dance, a highly selective conservatory-style program. Originally from Canada, she shows students that a creative passion can become serious training, and that the path can take you far from home.',a:['Turning an art form into a major','Auditions and conservatory life','Studying the arts in another country']},
+  {n:'In discussions',tbd:1,m:null,r:'High school student, creative arts',b:'Confirmation in progress. We are speaking with high school students in the arts for this seat, and will add them here as soon as they confirm.',a:['Lineup being finalized']}]}
 ];
 const esc=s=>s;
 const tabs=document.getElementById('tabs'),ind=document.getElementById('tabInd'),stagesEl=document.getElementById('stages'),vp=document.getElementById('viewport'),board=document.getElementById('panelists');
