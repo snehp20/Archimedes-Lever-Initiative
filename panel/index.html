@@ -102,6 +102,7 @@ img{max-width:100%}
 .board-foot{flex:none;display:flex;justify-content:center;gap:clamp(14px,4vw,40px);flex-wrap:wrap;margin-top:clamp(12px,2vh,22px);padding:0 16px;font:500 10.5px var(--mono);letter-spacing:.13em;text-transform:uppercase;color:#f5f0df8c}
 .board-foot b{color:var(--gold-light);font-weight:500}
 
+.rail{position:absolute;left:clamp(16px,2.4vw,40px);top:50%;transform:translateY(-50%);z-index:6;width:200px;padding:18px 18px 10px 0;background:linear-gradient(90deg,#0c282c 78%,#0c282c00)}.rail-day{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin:0 0 14px}.rail ol{list-style:none;margin:0;padding:0 0 0 14px;border-left:1px solid #f5f0df2e;display:grid;gap:4px}.rail li button{position:relative;display:block;width:100%;text-align:left;border:0;background:none;cursor:pointer;padding:9px 10px;border-radius:10px;color:#f5f0df8c;transition:background .3s,color .3s}.rail li button::before{content:"";position:absolute;left:-19px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:#2c4a4e;box-shadow:0 0 0 3px #0c282c;transition:background .3s,transform .3s}.rail li button:hover{color:var(--cream)}.rail li button:focus-visible{outline:2px solid var(--gold-light);outline-offset:2px}.rail .t{display:block;font:500 12px var(--mono);letter-spacing:.06em}.rail .f{display:block;font-weight:600;font-size:15px;letter-spacing:-.01em;margin-top:2px}.rail li.is-on button{background:#f5f0df12;color:var(--cream)}.rail li.is-on .t{color:var(--gold-light)}.rail li.is-on button::before{background:var(--gold-light);transform:scale(1.3)}.rail li.is-done button::before{background:var(--teal-light)}.slot-now{display:none;align-self:center;margin-top:12px;padding:6px 12px;border-radius:999px;background:#f5f0df14;border:1px solid #f5f0df24;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light)}@media (max-width:1199px){.rail{display:none}.slot-now{display:block}}.card.is-on{overflow-y:auto;overscroll-behavior:contain}
 /* closing */
 .closing{padding:clamp(60px,10vh,110px) 0}
 .closing-card{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:clamp(28px,4vw,52px)}
@@ -140,7 +141,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   .board-foot{margin-top:8px;gap:4px 14px;font-size:9.5px}
 }
 @media (max-width:640px) and (max-height:760px){.asks,.asks-label{display:none}.bio{margin-bottom:0}}
-@media (max-height:720px){.board-head h2{display:none}.board-head .eyebrow{display:none}.bio{margin-bottom:12px}}
+@media (max-height:820px){.board-head h2{display:none}.board-head .eyebrow{display:none}.bio{margin-bottom:12px}.who{margin-top:clamp(16px,3vh,30px)}}
 @media (prefers-reduced-motion:reduce){.track,.card,.tab-ind{transition:none}}
 </style>
 </head>
@@ -169,7 +170,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
         <li><b>03 &middot; High school student</b><span>Someone a few years ahead of your students, making the same choices they will soon face.</span></li>
       </ul>
       <dl class="facts">
-        <div><dt>When</dt><dd>Friday, November 13</dd></div>
+        <div><dt>When</dt><dd>Friday, November 13, 9:05 to 10:50 AM ET</dd></div>
         <div><dt>Where</dt><dd>Streamed live on YouTube</dd></div>
         <div><dt>Who</dt><dd>Grades 7 and 8</dd></div>
         <div><dt>Cost</dt><dd>Free for schools</dd></div>
@@ -188,8 +189,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
         <h2>Five fields. Three voices each.</h2>
         <div class="tabs" role="tablist" aria-label="Career fields" id="tabs"><span class="tab-ind" id="tabInd" aria-hidden="true"></span></div>
       </div>
+      <div class="slot-now" id="slotNow" aria-live="polite"></div>
       <div class="stages" id="stages" aria-label="Panelist stage"></div>
-      <div class="viewport" id="viewport"></div>
+      <div class="viewport" id="viewport"><nav class="rail" id="rail" aria-label="Panel schedule"><p class="rail-day">Friday, Nov 13 &middot; ET</p><ol id="railList"></ol></nav></div>
       <div class="board-foot" aria-live="polite"><span id="hintV">Scroll &darr; next field</span><span id="hintH">Swipe or scroll sideways &rarr; next voice</span></div>
     </div>
   </section>
@@ -220,23 +222,23 @@ const mk=(k)=>k==='cisco'?`<span class="mark svg" aria-label="Cisco">${L.cisco}<
   `<span class="mark txt">${k}</span>`);
 const STAGES=['Workplace expert','University student','High school student'];
 const F=[
- {name:'Engineering',acc:'var(--teal)',people:[
-  {n:'Nour Zourob',m:'cisco',r:'Solutions Engineering Manager, Cisco',b:'Leads a team of solutions engineers at Cisco, one of the world’s largest networking and security companies. Solutions engineers sit between the technology and the people who need it, turning a client’s problem into a design that works. Students see that engineering is as much about people as it is about parts.',a:['What a solutions engineer does all day','Leading an engineering team','Engineering jobs beyond building things']},
-  {n:'Tvisha Lakhani',m:'University of Waterloo',r:'Chemical Engineering student',b:'Studying chemical engineering at the University of Waterloo, where students alternate school terms with paid co-op work terms. Chemical engineers take reactions that work in a lab and scale them into the processes that make medicine, fuel, food and materials.',a:['Choosing an engineering discipline','What first year is really like','Co-op and work terms']},
-  {n:'Anirudhan Illayaraja',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'A high school student in the International Baccalaureate program, heading toward engineering. The closest voice to your students: only a few years ahead, and making the same course and program decisions right now.',a:['Courses to take for engineering','Getting involved before university','Balancing a demanding program']}]},
- {name:'Life sciences',acc:'var(--gold)',people:[
-  {n:'Surgeon',tbd:1,m:'uhn',r:'Surgeon, University Health Network',b:'A surgeon at University Health Network in Toronto, Canada’s largest research hospital. Students hear what the road to the operating room really involves, from high school science through medical school and residency, and what the work feels like once you get there.',a:['The training behind surgery','A day in the operating room','Careers in medicine beyond doctor']},
-  {n:'Cancer research student',tbd:1,m:'uhn',r:'Cancer research student, University Health Network',b:'A student researcher working on cancer at University Health Network. A reminder that science careers start in the lab long before the degree is finished, and that discoveries come from many hands over many years.',a:['What research actually involves','Getting into a lab as a student','How discoveries reach patients']},
-  {n:'Amey Sharma',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'An IB student working toward the life sciences, in the middle of the same science courses your students will meet in a few years. Real answers about what high school biology and chemistry are like, and how to tell if science is for you.',a:['Which sciences to take','Finding what you love in biology','What IB science is really like']}]},
- {name:'Entrepreneurship',acc:'var(--teal)',people:[
+ {name:'Entrepreneurship',acc:'var(--teal)',t0:'9:05',t1:'9:25',people:[
   {n:'Tim Jackson',m:'SHAD',r:'CEO, Shad Canada',b:'Leads Shad Canada, a national enrichment program where high school students spend a month working on real-world problems through science, technology, engineering, arts, math and entrepreneurship. Few people have seen more young people turn an idea into a plan.',a:['Starting something at any age','What founders and investors look for','Turning an idea into a plan']},
   {n:'Ethan Gardner',m:'University of Waterloo',r:'Enterprise Co-op student, Conrad School of Entrepreneurship and Business',b:'In Waterloo’s Enterprise Co-op, where students spend a co-op term building their own venture instead of working for an employer. Students hear what it is like to treat your own business as your job while still in school.',a:['Building a business in school','What failed ideas teach you','Finding the right problem']},
   {n:'Navroop Aulakh',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'An IB student exploring entrepreneurship, and proof that you do not have to wait for university to start building. Students see what taking a first step looks like at an age not far from their own.',a:['Starting projects in high school','Turning interests into ideas','Taking the first step']}]},
- {name:'Economics',acc:'var(--gold)',people:[
+ {name:'Engineering',acc:'var(--gold)',t0:'9:25',t1:'9:45',people:[
+  {n:'Nour Zourob',m:'cisco',r:'Solutions Engineering Manager, Cisco',b:'Leads a team of solutions engineers at Cisco, one of the world’s largest networking and security companies. Solutions engineers sit between the technology and the people who need it, turning a client’s problem into a design that works. Students see that engineering is as much about people as it is about parts.',a:['What a solutions engineer does all day','Leading an engineering team','Engineering jobs beyond building things']},
+  {n:'Tvisha Lakhani',m:'University of Waterloo',r:'Chemical Engineering student',b:'Studying chemical engineering at the University of Waterloo, where students alternate school terms with paid co-op work terms. Chemical engineers take reactions that work in a lab and scale them into the processes that make medicine, fuel, food and materials.',a:['Choosing an engineering discipline','What first year is really like','Co-op and work terms']},
+  {n:'Anirudhan Illayaraja',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'A high school student in the International Baccalaureate program, heading toward engineering. The closest voice to your students: only a few years ahead, and making the same course and program decisions right now.',a:['Courses to take for engineering','Getting involved before university','Balancing a demanding program']}]},
+ {name:'Economics',acc:'var(--teal)',t0:'9:45',t1:'10:05',people:[
   {n:'Finance team member',tbd:1,m:'sabre',r:'Finance team, Sabre Limited',b:'Works on the finance team at Sabre Limited, a company that helps manufacturers run their operations on Microsoft Dynamics 365 Business Central. Finance is where economics turns into decisions: budgets, forecasts, and what a company can afford to build next.',a:['What a finance team does','Economics inside a real company','Careers that work with numbers']},
   {n:'Neel Mehra',m:'Duke University',r:'Economics student, Finance concentration, Duke University',b:'A Duke senior in economics and finance who has done global macro research in Hong Kong, interned in venture capital, and spent this summer at KKR in New York, where he returns full-time after graduation. He found his way into finance through trial and error at a public high school in Virginia, and wants students to see the path earlier than he did.',a:['Getting into finance without connections','What economics looks like in the real world','Making the most of university']},
   {n:'Sai Pha',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'An IB student drawn to economics, here to show what learning how money, markets and choices work looks like in high school, and why it matters long before anyone picks a major.',a:['Economics in high school','Why markets matter to everyone','Exploring before choosing']}]},
- {name:'Creative arts',acc:'var(--teal)',people:[
+ {name:'Life sciences',acc:'var(--gold)',t0:'10:05',t1:'10:30',people:[
+  {n:'Surgeon',tbd:1,m:'uhn',r:'Surgeon, University Health Network',b:'A surgeon at University Health Network in Toronto, Canada’s largest research hospital. Students hear what the road to the operating room really involves, from high school science through medical school and residency, and what the work feels like once you get there.',a:['The training behind surgery','A day in the operating room','Careers in medicine beyond doctor']},
+  {n:'Cancer research student',tbd:1,m:'uhn',r:'Cancer research student, University Health Network',b:'A student researcher working on cancer at University Health Network. A reminder that science careers start in the lab long before the degree is finished, and that discoveries come from many hands over many years.',a:['What research actually involves','Getting into a lab as a student','How discoveries reach patients']},
+  {n:'Amey Sharma',m:'Glenview Park SS',r:'IB student, Glenview Park Secondary School',b:'An IB student working toward the life sciences, in the middle of the same science courses your students will meet in a few years. Real answers about what high school biology and chemistry are like, and how to tell if science is for you.',a:['Which sciences to take','Finding what you love in biology','What IB science is really like']}]},
+ {name:'Creative arts',acc:'var(--teal)',t0:'10:30',t1:'10:50',people:[
   {n:'In discussions',tbd:1,m:null,r:'Workplace expert, creative arts',b:'Confirmation in progress. We are in conversations with working artists and creative professionals for this seat, and will add them here as soon as they confirm.',a:['Lineup being finalized']},
   {n:'Zailah Nelson',m:'NYU Tisch',r:'BFA Dance student, NYU Tisch School of the Arts',b:'A dance major in the BFA program at New York University\u2019s Tisch Department of Dance, a highly selective conservatory-style program. Originally from Canada, she shows students that a creative passion can become serious training, and that the path can take you far from home.',a:['Turning an art form into a major','Auditions and conservatory life','Studying the arts in another country']},
   {n:'In discussions',tbd:1,m:null,r:'High school student, creative arts',b:'Confirmation in progress. We are speaking with high school students in the arts for this seat, and will add them here as soon as they confirm.',a:['Lineup being finalized']}]}
@@ -247,6 +249,9 @@ F.forEach((f,k)=>{const b=document.createElement('button');b.type='button';b.cla
 const tabBtns=[...tabs.querySelectorAll('.tab')];
 STAGES.forEach((s,j)=>{if(j){const l=document.createElement('span');l.className='step-line';stagesEl.appendChild(l)}const b=document.createElement('button');b.type='button';b.className='step';b.innerHTML=`<i></i><span>${s.split(' ')[0]}</span><span class="long">&nbsp;${s.split(' ').slice(1).join(' ')}</span>`;b.addEventListener('click',()=>setStage(cur(),j));stagesEl.appendChild(b)});
 const stepBtns=[...stagesEl.querySelectorAll('.step')];
+const railList=document.getElementById('railList'),slotNow=document.getElementById('slotNow');
+F.forEach((f,k)=>{const li=document.createElement('li');li.innerHTML=`<button type="button"><span class="t">${f.t0} \u2013 ${f.t1}</span><span class="f">${f.name}</span></button>`;li.querySelector('button').addEventListener('click',()=>goField(k));railList.appendChild(li)});
+const railItems=[...railList.children];
 const arrow=(c,d)=>`<button type="button" class="arrow ${c}" aria-label="${c==='prev'?'Previous':'Next'} panelist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg></button>`;
 const fields=F.map((f,k)=>{const el=document.createElement('div');el.className='field';el.style.setProperty('--acc',f.acc);
  el.innerHTML=`<div class="track">${f.people.map((p,j)=>`<article class="card" data-j="${j}" aria-label="${p.n}, ${STAGES[j]}"><div class="card-top"><span class="pill">${STAGES[j]}</span><span class="num">${String(j+1).padStart(2,'0')} / 03</span></div><div class="who"><h3 class="name${p.tbd?' is-tbd':''}"><span>${p.n}</span>${p.m?mk(p.m):''}</h3><p class="role">${p.r}</p><p class="bio">${p.b}</p><p class="asks-label">Ask about</p><ul class="asks">${p.a.map(x=>`<li>${x}</li>`).join('')}</ul></div></article>`).join('')}</div>${arrow('prev','M15 18l-6-6 6-6')}${arrow('next','M9 6l6 6-6 6')}`;
@@ -261,7 +266,7 @@ const rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)'
 function cur(){return Math.min(F.length-1,Math.max(0,Math.round(pos)))}
 function layout(){
   const w=vp.clientWidth,h=vp.clientHeight,mob=w<640;
-  const cw=Math.min(mob?w-40:760,w-(mob?40:200)),gap=mob?14:32;
+  const cw=w>=1200?Math.min(760,w-580):Math.min(mob?w-40:760,w-(mob?40:200)),gap=mob?14:32;
   board.style.setProperty('--cw',cw+'px');board.style.setProperty('--gap',gap+'px');
   fields.forEach((el,k)=>{el.style.setProperty('--cw',cw+'px');el.style.setProperty('--gap',gap+'px');const tr=el.querySelector('.track');tr.style.transform=`translateX(${-cw/2-st[k]*(cw+gap)}px)`;
     el.querySelectorAll('.card').forEach((c,j)=>c.classList.toggle('is-on',j===st[k]));
@@ -277,6 +282,8 @@ function paint(){
   const b=tabBtns[k];ind.style.width=b.offsetWidth+'px';ind.style.transform=`translateX(${b.offsetLeft}px)`;
   if(tabs.scrollWidth>tabs.clientWidth)tabs.scrollTo({left:b.offsetLeft-(tabs.clientWidth-b.offsetWidth)/2,behavior:'smooth'});
   stepBtns.forEach((s,j)=>s.classList.toggle('is-on',j===st[k]));
+  railItems.forEach((li,i)=>{li.classList.toggle('is-on',i===k);li.classList.toggle('is-done',i<k)});
+  slotNow.textContent=`${F[k].t0} \u2013 ${F[k].t1} AM ET \u00b7 ${F[k].name}`;
 }
 function read(){
   const r=board.getBoundingClientRect(),tot=Math.max(1,board.offsetHeight-window.innerHeight);
