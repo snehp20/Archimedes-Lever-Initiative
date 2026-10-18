@@ -3402,7 +3402,7 @@ var qrcode = function() {
   const JUMPS = [['ali-prizes', 'Prizes'], ['ali-tracks', 'Tracks'], ['ali-how', 'How it works'], ['ali-timeline', 'Timeline'], ['ali-faq', 'FAQ']];
 
   const register = (icons, label = 'Register your team') =>
-    `<a class="button button-gold ali-button-lg" href="#/challenge/register">${label} ${icons.arrow(18)}</a>`;
+    `<a class="button button-gold ali-button-lg" href="https://forms.gle/VWP68Qt4KD7oP5n39" target="_blank" rel="noopener">${label} ${icons.arrow(18)}</a>`;
 
   function heroHtml({ icons, rings }) {
     return `
@@ -3590,7 +3590,7 @@ var qrcode = function() {
     return `
       <div class="ali-sticky" role="complementary" aria-label="Register">
         <p><strong>${PRIZE_POOL} in prizes</strong><span>Registration open</span></p>
-        <a class="button button-gold" href="#/challenge/register">Register ${icons.arrow(16)}</a>
+        <a class="button button-gold" href="https://forms.gle/VWP68Qt4KD7oP5n39" target="_blank" rel="noopener">Register ${icons.arrow(16)}</a>
       </div>`;
   }
 
@@ -3854,10 +3854,15 @@ var qrcode = function() {
 
   window.ALI.pages.register = {
     render(ctx) {
-      return `<main class="form-page ali-form-page">${headingHtml()}${formHtml(ctx)}</main>`;
+      return `<main class="form-page ali-confirm-page"><div class="confirmation"><p class="eyebrow">Grand innovation challenge</p><h1>Register your team</h1><p>Registration now happens on our Google Form. Taking you there now.</p><a class="button button-gold" href="https://forms.gle/VWP68Qt4KD7oP5n39">Open the registration form ${ctx.icons.arrow(17)}</a></div></main>`;
     },
 
     bind(root, ctx) {
+      window.location.replace('https://forms.gle/VWP68Qt4KD7oP5n39');
+      return () => {};
+    },
+
+    _oldBind(root, ctx) {
       const form = root.querySelector('form');
       const errorBox = form.querySelector('.form-error');
       const draft = ctx.persistForm(form, 'register');
