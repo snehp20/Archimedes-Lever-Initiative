@@ -286,8 +286,9 @@ function layout(){
   board.style.setProperty('--cw',cw+'px');board.style.setProperty('--gap',gap+'px');
   fields.forEach((el,k)=>{el.style.setProperty('--cw',cw+'px');el.style.setProperty('--gap',gap+'px');const tr=el.querySelector('.track');tr.style.transform=`translateX(${-cw/2-st[k]*(cw+gap)}px)`;
     el.querySelectorAll('.card').forEach((c,j)=>{c.classList.toggle('is-on',j===st[k]);c.classList.toggle('is-prev',j<st[k])});
-    el.querySelector('.prev').disabled=st[k]===0;el.querySelector('.next').disabled=st[k]>=nP(k)-1});
+    el.querySelector('.prev').disabled=st[k]===0;el.querySelector('.next').disabled=st[k]>=nP(k)-1});fitCards();
 }
+function fitCards(){fields.forEach(el=>el.querySelectorAll('.card').forEach(c=>{const w=c.querySelector('.who');if(!w)return;w.style.zoom='';let z=1;while(c.scrollHeight-c.clientHeight>1&&z>0.62){z-=0.03;w.style.zoom=z.toFixed(2)}}))}
 function setStage(k,j){j=Math.max(0,Math.min(nP(k)-1,j));if(st[k]===j)return;st[k]=j;layout();paint()}
 function paint(){
   const h=vp.clientHeight;
