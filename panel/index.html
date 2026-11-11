@@ -85,7 +85,7 @@ img{max-width:100%}
 .name.is-tbd{color:#5d7b7f}
 .mark{display:inline-flex;align-items:center;height:.78em;flex:none}
 .mark img{height:100%;width:auto;display:block}
-.mark.svg{height:1.25em}.mark.tall{height:1.15em}.mark.sq{height:1.35em}.mark.wide{height:.6em}.marks{display:inline-flex;align-items:center;gap:.4em;flex:none}.mark svg{height:100%;width:auto;display:block;fill:#049fd9}
+.mark.svg{height:1.25em}.mark.tall{height:1.15em}.mark.sq{height:1.35em}.mark.wide{height:.6em}.marks{display:inline-flex;align-items:center;gap:.4em;flex:none}.msep{width:1.5px;height:1.1em;background:#143d4259;flex:none}.mark svg{height:100%;width:auto;display:block;fill:#049fd9}
 .mark.txt{height:auto;padding:5px 9px;border:1px solid #143d4233;border-radius:6px;font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#4c6b6f;align-self:center}
 .role{font:500 12px/1.45 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#a8552f;margin:0 0 16px}
 .bio{font-size:clamp(15px,1.25vw,17px);line-height:1.6;color:#36585c;margin:0 0 18px;max-width:58ch}
@@ -228,7 +228,7 @@ const MKC={tall:['waterloo','duke','rutgers','uchicago','rice','boc','harvard','
 const mk1=(k)=>k==='cisco'?`<span class="mark svg" aria-label="Cisco">${L.cisco}</span>`:
   (L[k]?`<span class="mark${Object.keys(MKC).filter(c=>MKC[c].includes(k)).map(c=>' '+c).join('')}"><img src="${L[k]}" alt="${MKN[k]||''}"></span>`:
   `<span class="mark txt">${k}</span>`);
-const mk=(k)=>Array.isArray(k)?`<span class="marks">${k.map(mk1).join('')}</span>`:mk1(k);
+const mk=(k)=>Array.isArray(k)?`<span class="marks">${k.map(mk1).join('<span class="msep" aria-hidden="true"></span>')}</span>`:mk1(k);
 const STAGES=['Workplace expert','University student','High school student'];
 const F=[
  {name:'Entrepreneurship',acc:'var(--teal)',t0:'9:05',t1:'9:25',people:[
