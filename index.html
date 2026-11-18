@@ -3342,266 +3342,185 @@ var qrcode = function() {
   };
 })();
 
-/* #/challenge: the grand innovation challenge page. Registration is the first action on screen. */
+/* #/challenge: the grand innovation challenge page. Rebuilt compact: prizes, prompts, and the sign-up button are the whole point. Minimal scroll. */
 (() => {
   const PRIZE_POOL = '$$$$+';
-
   const MAPS = 'https://www.google.com/maps/search/?api=1&query=Cambridge+Centre+for+the+Arts%2C+60+Dickson+Street%2C+Cambridge%2C+ON+N1R+8N1';
-  const VENUE = 'Toyota Auditorium, Cambridge Centre for the Arts';
-  const FACTS = [
-    ['When', 'December 19', 'Saturday, 1:00 to 4:00 PM'],
-    ['Where', 'Toyota Auditorium', `Cambridge Centre for the Arts \u00b7 <a class="ali-maplink" href="${MAPS}" target="_blank" rel="noopener noreferrer">Open in Maps \u2197</a>`],
-    ['Teams', '1 or 2 students', 'Grades 7 and 8, one track each'],
-    ['Prizes', `${PRIZE_POOL}`, 'Glass trophy for 1st in each track'],
-    ['Cost', 'Free', 'Certificate for every student']
+  const FORM = 'https://forms.gle/VWP68Qt4KD7oP5n39';
+
+  const PRIZES = [
+    ['Signed Shaq jersey', 'Game-worn style jersey, autographed'],
+    ['Drone', 'Camera drone, ready to fly'],
+    ['Telescope', 'See the moon and planets up close'],
+    ['Polaroid camera', 'Instant film camera'],
+    ['Beats headphones', 'Wireless, brand new']
   ];
-  const AWARDS = [
-    ['1st', 'Glass trophy', 'First place in each of the five tracks wins a glass trophy.'],
-    ['\u00d75', 'Grand prizes', 'Every track winner also takes home a grand prize.'],
-    ['100%', 'Certificates', 'Every student who competes gets a certificate.'],
-    ['All', 'Judge feedback', 'Judges visit every table and talk with every team about their project.']
+
+  const WHY = [
+    ['Real prizes', `${PRIZE_POOL} in prizes up for grabs, plus a glass trophy for every track winner.`],
+    ['Real judges', 'Judges visit every single table and talk with every team about their project.'],
+    ['A real certificate', 'Every student who competes walks away with a certificate. 100% of them.'],
+    ['Real exposure', 'Projects are shown off to our sponsors, our community, and on ALI’s socials.'],
+    ['A real skill', 'Students build something from scratch and learn to explain it to an adult, judge style.'],
+    ['Do it with a friend', 'Teams of up to two. Bring a friend, or make a new one at the event.']
   ];
-  const STEPS = [
-    ['01', 'Make a team', 'Sign up alone or with one friend. Two is the max.'],
-    ['02', 'Pick a track', 'Choose one of the five tracks. Your team competes in that one only.'],
-    ['03', 'Build at home', 'Get your prompt, then make a trifold board and a creative model of something related to it.'],
-    ['04', 'Set up and get judged', 'Bring your project on December 19, set it up at your table, and judges walk around science fair style.']
-  ];
-  const RULES = [
-    'Open to students in grades 7 and 8',
-    'Teams of one or two students',
-    'One track per team',
-    'A parent or guardian approves each registration',
-    'Projects are built at home before the event',
-    'Bring a trifold board and a model related to your prompt'
-  ];
-  const ROAD = [
-    { when: 'Now', title: 'Registration open', body: 'Save your team\u2019s spot and pick your track.', state: 'is-done' },
-    { when: 'Coming soon', title: 'Prompts released', body: 'All five prompts go up on this page, so you can start building.', state: '' },
-    { when: 'To be announced', title: 'Registration closes', body: 'We will share this date soon.', state: '' },
-    { when: 'December 19', title: 'Challenge day', body: 'Saturday, 1:00 to 4:00 PM, at the Toyota Auditorium in the Cambridge Centre for the Arts.', state: 'is-key' }
-  ];
-  const PHASES = [
-    { name: 'Set up', body: 'Check in and set up your trifold and model at your table.' },
-    { name: 'Judging', body: 'Judges walk around and visit every table, science fair style. Tell them about your project.', isKey: true },
-    { name: 'Explore', body: 'Walk around and see what every other team built.' },
-    { name: 'Awards', body: 'A glass trophy and a grand prize for first place in each track, and a certificate for everyone.', isKey: true }
-  ];
-  const FAQ = [
-    ['Who can enter?', 'Any student in grade 7 or 8. Teams that won a stage one workshop are already in, but still need to register here.'],
-    ['What do we make?', 'Two things, built at home before the event: a trifold board that explains your idea, and a creative model of something related to your track\u2019s prompt. Bring both on the day.'],
-    ['How does judging work?', 'Like a science fair. Every team sets up at a table, and judges walk around, look at your trifold and model, and ask you about your project.'],
-    ['What can we win?', `There is ${PRIZE_POOL} in prizes. First place in each of the five tracks wins a glass trophy and a grand prize, and every student gets a certificate.`],
-    ['Where is it?', `At the Toyota Auditorium in the Cambridge Centre for the Arts, 60 Dickson Street, Cambridge, ON. <a href="${MAPS}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>.`],
-    ['When is it?', 'Saturday, December 19, from 1:00 to 4:00 PM.'],
-    ['Does it cost anything?', 'No. It is free for every student.'],
-    ['Can I enter on my own?', 'Yes. Teams can be one or two students. Two is the max.'],
-    ['Can my team enter more than one track?', 'No. Each team picks one track and competes only in that track.'],
-    ['Does a parent or guardian need to sign off?', 'Yes. Every student needs a parent or guardian to approve their registration and give an emergency contact.']
-  ];
-  const JUMPS = [['ali-prizes', 'Prizes'], ['ali-tracks', 'Tracks'], ['ali-how', 'How it works'], ['ali-timeline', 'Timeline'], ['ali-faq', 'FAQ']];
 
   const register = (icons, label = 'Register your team') =>
-    `<a class="button button-gold ali-button-lg" href="https://forms.gle/VWP68Qt4KD7oP5n39" target="_blank" rel="noopener">${label} ${icons.arrow(18)}</a>`;
+    `<a class="button button-gold ali-button-lg" href="${FORM}" target="_blank" rel="noopener">${label} ${icons.arrow(18)}</a>`;
 
-  function heroHtml({ icons, rings }) {
+  function styleHtml() {
+    return `<style>
+      .ali-gic{background:var(--cream);color:var(--ink)}
+      .ali-gic .wrap{width:min(1080px,calc(100% - 32px));margin:auto}
+      .ali-gic-hero{background:var(--ink-deep);color:var(--cream);padding:46px 0 34px;text-align:center}
+      .ali-gic-hero .eyebrow{color:var(--gold-light);justify-content:center;display:flex}
+      .ali-gic-hero h1{font-size:clamp(34px,6.2vw,58px);line-height:1.02;letter-spacing:-.03em;margin:10px 0 14px}
+      .ali-gic-hero h1 span{color:var(--gold-light)}
+      .ali-gic-hero>.wrap>p{max-width:640px;margin:0 auto 22px;font-size:17px;line-height:1.4;color:#d5ded5}
+      .ali-gic-sub{font-weight:700;color:var(--cream)}
+      .ali-button-xl{font-size:17px!important;padding:19px 26px!important;box-shadow:0 10px 0 #0003}
+      .ali-gic-facts{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:20px 0 0;list-style:none;padding:0}
+      .ali-gic-facts li{padding:8px 14px;border-radius:99px;background:#fffdf61a;border:1px solid rgba(245,240,223,.28);font:12px var(--mono);letter-spacing:.04em;color:var(--cream)}
+      .ali-gic-sec{padding:30px 0}
+      .ali-gic-sec h2{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.03em;margin:0 0 4px;text-align:center}
+      .ali-gic-sec>.wrap>p.ali-gic-dek{text-align:center;max-width:560px;margin:0 auto 20px;font-size:14.5px;color:#143d42b8}
+      .ali-gic-prizepool{text-align:center;margin:0 0 14px}
+      .ali-gic-prizepool b{font:700 15px var(--mono);color:var(--clay)}
+      .ali-prize-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+      .ali-prize-card{padding:16px 10px;border-radius:14px;background:var(--paper);border:2px solid var(--gold);text-align:center}
+      .ali-prize-card .ali-prize-emoji{font-size:30px;display:block;margin-bottom:8px}
+      .ali-prize-card strong{display:block;font-size:14px;line-height:1.2;letter-spacing:-.01em}
+      .ali-prize-card span{display:block;font-size:11.5px;color:#143d42a0;margin-top:4px}
+      .ali-gic-dark{background:var(--ink-deep);color:var(--cream)}
+      .ali-gic-dark h2{color:var(--cream)}
+      .ali-prompt-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+      .ali-prompt-card{padding:16px 14px;border-radius:14px;background:#fffdf614;border:1px solid rgba(245,240,223,.25)}
+      .ali-prompt-card em{font:11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light);font-style:normal}
+      .ali-prompt-card h3{font-size:17px;margin:6px 0 8px;letter-spacing:-.02em}
+      .ali-prompt-card p{font-size:13px;line-height:1.4;color:#d5ded5;margin:0}
+      .ali-prompt-card .ali-track-soon{font:11px var(--mono);color:var(--gold-light);margin:10px 0 0;display:flex;gap:5px;align-items:center}
+      .ali-why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+      .ali-why-card{padding:16px;border-radius:14px;background:var(--paper);border:1px solid var(--line)}
+      .ali-why-card strong{display:block;font-size:15px;letter-spacing:-.01em;margin-bottom:4px}
+      .ali-why-card p{font-size:13px;line-height:1.4;color:#143d42a8;margin:0}
+      .ali-gic-sponsors{text-align:center;padding:18px 0 4px}
+      .ali-gic-sponsors p{font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--clay);margin:0 0 10px}
+      .ali-gic-sponsors .ali-sp-names{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;font:700 18px var(--sans);color:#143d42c0}
+      .ali-gic-final{padding:30px 0 54px;text-align:center}
+      .ali-gic-final p{max-width:460px;margin:0 auto 18px;font-size:14.5px;color:#143d42b8}
+      @media (max-width:850px){
+        .ali-gic-hero{padding:34px 0 26px}
+        .ali-prize-grid,.ali-prompt-grid{grid-template-columns:repeat(2,1fr)}
+        .ali-why-grid{grid-template-columns:1fr 1fr}
+      }
+      @media (max-width:520px){
+        .ali-prize-grid,.ali-prompt-grid,.ali-why-grid{grid-template-columns:1fr 1fr}
+        .ali-gic-sec{padding:22px 0}
+      }
+    </style>`;
+  }
+
+  function heroHtml({ icons }) {
     return `
-      <section class="ali-hero">
-        ${rings('ali-rings-hero')}
-        <div class="wrap ali-hero-inner">
-          <p class="eyebrow">Stage 03 \u00b7 The finale</p>
-          <h1 class="ali-display">Grand innovation <span>challenge</span></h1>
-          <p class="ali-lede">A free challenge for grade 7 and 8 students. Work alone or with a partner, pick one of five tracks, and build a trifold and a creative model at home. Then bring it to the Toyota Auditorium in Cambridge on December 19 for science fair style judging.</p>
-          <p class="ali-prize-callout"><strong>${PRIZE_POOL}</strong> in prizes <i aria-hidden="true">\u00b7</i> Glass trophy for 1st in each track <i aria-hidden="true">\u00b7</i> Certificates for 100% of students</p>
-          <div class="ali-actions">
-            ${register(icons)}
-            <button type="button" class="button ali-button-ink ali-button-lg" data-scroll="ali-tracks">See the tracks</button>
-          </div>
-          <p class="ali-status"><span aria-hidden="true"></span>Registration is open. Free for every student.</p>
-          <dl class="ali-factbar">
-            ${FACTS.map(([dt, big, small]) => `<div><dt>${dt}</dt><dd class="ali-factbar-big">${big}</dd><dd>${small}</dd></div>`).join('')}
-          </dl>
-          <div class="ali-jumps" role="navigation" aria-label="On this page">
-            ${JUMPS.map(([id, label]) => `<button type="button" data-scroll="${id}">${label}</button>`).join('')}
+      <section class="ali-gic-hero">
+        <div class="wrap">
+          <p class="eyebrow">Stage 03 &middot; December 19 &middot; Toyota Auditorium, Cambridge</p>
+          <h1>Grand innovation <span>challenge</span></h1>
+          <p><span class="ali-gic-sub">Free for every grade 7 and 8 student.</span> Build something real with a friend, show it off science-fair style, and win big. A real learning project, real judges, and a certificate for every single student who takes part &mdash; this is the kind of thing that stands out, on a resume or just in a kid's memory.</p>
+          ${register(icons, 'Register your team now')}<style>.ali-gic-hero .ali-button-lg{font-size:17px;padding:19px 28px;margin-top:4px}</style>
+          <ul class="ali-gic-facts">
+            <li>${PRIZE_POOL} in prizes</li>
+            <li>Sat, December 19 &middot; 1&ndash;4 PM</li>
+            <li>Teams of 1 or 2</li>
+            <li>100% free</li>
+            <li><a style="color:inherit" href="${MAPS}" target="_blank" rel="noopener">Toyota Auditorium, Cambridge ↗</a></li>
+          </ul>
+        </div>
+      </section>`;
+  }
+
+  function prizesHtml() {
+    const emoji = ['🏀', '🚁', '🔭', '📷', '🎧'];
+    return `
+      <section class="ali-gic-sec">
+        <div class="wrap">
+          <h2>What you can win</h2>
+          <p class="ali-gic-dek">Every student also gets a certificate, and each track winner takes home a glass trophy. On top of that, these five prizes are up for grabs.</p>
+          <div class="ali-gic-prizepool"><b>${PRIZE_POOL} prize pool</b></div>
+          <div class="ali-prize-grid">
+            ${PRIZES.map(([name, line], i) => `
+              <div class="ali-prize-card"><span class="ali-prize-emoji" aria-hidden="true">${emoji[i]}</span><strong>${name}</strong><span>${line}</span></div>`).join('')}
           </div>
         </div>
       </section>`;
   }
 
-  function prizesHtml({ icons, rings }) {
+  function promptsHtml(ctx) {
+    const { TRACKS, icons, esc } = ctx;
     return `
-      <section class="section ali-light" id="ali-prizes">
+      <section class="ali-gic-sec ali-gic-dark">
         <div class="wrap">
-          <div class="ali-split-head">
-            <div><p class="eyebrow">Prizes</p><h2>What you can win</h2></div>
-            <p>${PRIZE_POOL} in prizes, a glass trophy and a grand prize for first place in each track, and a certificate for every student who takes part.</p>
-          </div>
-          <div class="ali-prizes">
-            <div class="ali-grand reveal">
-              ${rings('ali-rings-card')}
-              <div class="ali-grand-top"><p>Prize pool</p>${icons.award(30)}</div>
-              <div>
-                <h3 class="ali-grand-amount">${PRIZE_POOL}</h3>
-                <p>In prizes across the day, with a glass trophy and a grand prize for the winner of every track.</p>
-                <p class="ali-gold-note">Full prize list comes out with the prompts</p>
-              </div>
-            </div>
-            <ul class="ali-awards">
-              ${AWARDS.map(([n, t, d]) => `<li class="reveal"><span>${n}</span><div><p>${t}</p><p>${d}</p></div></li>`).join('')}
-            </ul>
-          </div>
-        </div>
-      </section>`;
-  }
-
-  function trackPromptHtml(track, { icons }) {
-    if (!track.prompt) return `<p class="ali-track-soon">${icons.lock(14)} Prompt soon</p>`;
-    return '<p class="ali-track-soon is-live"><span aria-hidden="true"></span>Prompt live</p>';
-  }
-
-  function trackBodyHtml(track, { esc }) {
-    const prompt = track.prompt
-      ? `<div class="ali-track-prompt"><p class="ali-track-prompt-label">The prompt</p><p>${esc(track.prompt)}</p></div>`
-      : '';
-    return `<div><p class="ali-track-line">${track.line}</p><p>${track.desc}</p>${prompt}</div>`;
-  }
-
-  function tracksHtml(ctx) {
-    const { TRACKS, promptsReleased } = ctx;
-    return `
-      <section class="section dark-section" id="ali-tracks">
-        <div class="path-lines"></div>
-        <div class="wrap">
-          <div class="ali-split-head">
-            <div><p class="eyebrow">Five tracks</p><h2>Choose your track</h2></div>
-            <p>Every team enters one track, and each track has its own prompt. ${promptsReleased ? 'All five prompts are up below.' : 'The prompts come out soon.'}</p>
-          </div>
-          <ol class="ali-tracks">
+          <h2>Pick a track, get your prompt</h2>
+          <p class="ali-gic-dek" style="color:#d5ded5">Every team picks one of these five tracks. Your prompt tells you exactly what to build.</p>
+          <div class="ali-prompt-grid">
             ${TRACKS.map((t) => `
-              <li class="reveal">
-                <span class="ali-track-no">${t.no}</span>
+              <div class="ali-prompt-card">
+                <em>Track ${t.no}</em>
                 <h3>${t.name}</h3>
-                ${trackBodyHtml(t, ctx)}
-                ${trackPromptHtml(t, ctx)}
-              </li>`).join('')}
-          </ol>
-        </div>
-      </section>`;
-  }
-
-  function howHtml({ icons }) {
-    return `
-      <section class="section ali-light" id="ali-how">
-        <div class="wrap">
-          <p class="eyebrow">The basics</p>
-          <h2 class="ali-h2-gap">How it works</h2>
-          <ol class="ali-steps">
-            ${STEPS.map(([n, t, d]) => `<li class="reveal"><p class="ali-step-no">${n}</p><h3>${t}</h3><p>${d}</p></li>`).join('')}
-          </ol>
-          <div class="ali-fine">
-            <div><h3>The rules</h3><p>The short version.</p></div>
-            <ul>${RULES.map((rule) => `<li>${icons.check(18)}<span>${rule}</span></li>`).join('')}</ul>
+                <p>${t.prompt ? esc(t.prompt) : t.line}</p>
+                ${t.prompt ? '<p class="ali-track-soon" style="color:#c9d98a"><span aria-hidden="true">●</span>Prompt live</p>' : `<p class="ali-track-soon">${icons.lock(13)} Prompt drops soon</p>`}
+              </div>`).join('')}
           </div>
         </div>
       </section>`;
   }
 
-  function roadHtml({ promptsReleased }) {
-    const steps = ROAD.map((m, i) => (i === 1 && promptsReleased ? { ...m, when: 'Released', state: 'is-done' } : m));
+  function whyHtml() {
     return `
-      <ol class="ali-road">
-        ${steps.map((m, i) => `
-          <li class="ali-road-step ${m.state}">
-            <span class="ali-road-marker" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
-            <p class="ali-road-when">${m.when}</p>
-            <p class="ali-road-title">${m.title}</p>
-            <p class="ali-road-body">${m.body}</p>
-          </li>`).join('')}
-      </ol>`;
+      <section class="ali-gic-sec">
+        <div class="wrap">
+          <h2>Why sign up</h2>
+          <div class="ali-why-grid">
+            ${WHY.map(([t, d]) => `<div class="ali-why-card"><strong>${t}</strong><p>${d}</p></div>`).join('')}
+          </div>
+        </div>
+      </section>`;
   }
 
-  function dayHtml() {
+  function sponsorsHtml() {
     return `
-      <div class="ali-day-card">
-        <div class="ali-day-intro">
-          <p class="eyebrow">On the day</p>
-          <h3>December 19</h3>
-          <p>Saturday, 1:00 to 4:00 PM, at the Toyota Auditorium, Cambridge Centre for the Arts. <a class="ali-maplink" href="${MAPS}" target="_blank" rel="noopener noreferrer">Open in Maps \u2197</a></p>
-          <p class="ali-hours"><span>3</span>hours, start to finish</p>
-        </div>
-        <div class="ali-phases-wrap">
-          <ol class="ali-phases">
-            ${PHASES.map((phase, i) => `
-              <li class="ali-phase${phase.isKey ? ' is-key' : ''}">
-                <span class="ali-phase-no" aria-hidden="true">${i + 1}</span>
-                <p class="ali-phase-name">${phase.name}</p>
-                <p class="ali-phase-body">${phase.body}</p>
-              </li>`).join('')}
-          </ol>
-          <div class="ali-hours-bar" aria-hidden="true"><span></span></div>
-          <p class="ali-hours-note">Rough order of the day, from 1:00 to 4:00 PM.</p>
-        </div>
+      <div class="ali-gic-sponsors wrap">
+        <p>Backed by</p>
+        <div class="ali-sp-names"><span>Toyota</span><span>Meridian Credit Union</span></div>
       </div>`;
   }
 
-  function timelineHtml(ctx) {
+  function finalCtaHtml({ icons }) {
     return `
-      <section class="section dark-section ali-dark-rings" id="ali-timeline">
-        ${ctx.rings('ali-rings-corner')}
+      <section class="ali-gic-final">
         <div class="wrap">
-          <div class="ali-split-head">
-            <div><p class="eyebrow">Timeline</p><h2 class="ali-cream">The road to December 19</h2></div>
-            <p>Where things are now, and what happens next.</p>
-          </div>
-          ${roadHtml(ctx)}
-          ${dayHtml()}
+          <h2>Spots are filling up</h2>
+          <p>Takes about five minutes. Have a parent or guardian close by, they approve step three.</p>
+          ${register(icons, 'Register your team')}
         </div>
       </section>`;
   }
 
-  function faqHtml({ config, esc }) {
-    return `
-      <section class="section ali-light" id="ali-faq">
-        <div class="wrap ali-faq-grid">
-          <div>
-            <p class="eyebrow">Questions</p>
-            <h2>Good to know</h2>
-            <p class="ali-muted">Still stuck? Email <a href="mailto:${esc(config.contactEmail)}">${esc(config.contactEmail)}</a>.</p>
-          </div>
-          <dl class="ali-faq">${FAQ.map(([q, a]) => `<div><dt>${q}</dt><dd>${a}</dd></div>`).join('')}</dl>
-        </div>
-      </section>`;
-  }
-
-  function finalCtaHtml({ icons, rings }) {
-    return `
-      <section class="ali-final">
-        ${rings('ali-rings-center')}
-        <div class="wrap ali-final-inner">
-          <h2>Ready to <span>register?</span></h2>
-          <p>It takes about five minutes. Have a parent or guardian nearby, they need to approve it.</p>
-          ${register(icons)}
-        </div>
-      </section>`;
-  }
-
-  /** Phones only: keeps registration one tap away while scrolling. */
   function stickyHtml({ icons }) {
     return `
       <div class="ali-sticky" role="complementary" aria-label="Register">
         <p><strong>${PRIZE_POOL} in prizes</strong><span>Registration open</span></p>
-        <a class="button button-gold" href="https://forms.gle/VWP68Qt4KD7oP5n39" target="_blank" rel="noopener">Register ${icons.arrow(16)}</a>
+        <a class="button button-gold" href="${FORM}" target="_blank" rel="noopener">Register ${icons.arrow(16)}</a>
       </div>`;
   }
 
   window.ALI.pages.challenge = {
     render(ctx) {
-      const sections = [heroHtml, prizesHtml, tracksHtml, howHtml, timelineHtml, faqHtml, finalCtaHtml];
-      return `<main class="ali-challenge">${sections.map((section) => section(ctx)).join('')}${stickyHtml(ctx)}</main>`;
+      const sections = [heroHtml, prizesHtml, promptsHtml, whyHtml];
+      return `<main class="ali-challenge ali-gic">${styleHtml()}${sections.map((section) => section(ctx)).join('')}${sponsorsHtml(ctx)}${finalCtaHtml(ctx)}${stickyHtml(ctx)}</main>`;
     }
   };
 })();
-
 /* #/challenge/register: four step team registration. Submissions land in the Google Sheet. */
 (() => {
   const STEP_NAMES = ['Team and track', 'Students', 'Parent or guardian', 'Check and submit'];
